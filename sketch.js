@@ -1,12 +1,12 @@
 
-var incr = .025;
+var incr = .03;
 var scl = 10;
 var start = 0;
 var cols, rows;
 var gridColor;
 
 function setup() {
-	createCanvas(1000, 800);
+	createCanvas(600, 600);
 	pixelDensity(1);
 	cols = floor(width/scl);
 	rows = floor(height/scl);

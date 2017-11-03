@@ -6,7 +6,9 @@ var cols, rows;
 var gridColor;
 
 function setup() {
-	createCanvas(600, 600);
+	
+	
+	createCanvas(400, 400);
 	pixelDensity(1);
 	cols = floor(width/scl);
 	rows = floor(height/scl);

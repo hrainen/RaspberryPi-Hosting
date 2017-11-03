@@ -1,6 +1,6 @@
 
-var incr = .03;
-var scl = 10;
+var incr = .007;
+var scl = 1;
 var start = 0;
 var cols, rows;
 var gridColor;
@@ -8,7 +8,7 @@ var gridColor;
 function setup() {
 	
 	
-	createCanvas(400, 400);
+	createCanvas(800, 600);
 	pixelDensity(1);
 	cols = floor(width/scl);
 	rows = floor(height/scl);
@@ -32,18 +32,20 @@ function draw() {
 		}
 		yoff += incr;
 	}
-	start += incr*2;
+	//start += incr*2;
+	noLoop();
 }
 
 function get_color(color){
 	// Color range
 	// < 50 == Water Color
-	if (color < 80){ return [65,105,225];} else
+	if (color < 50) {return [0,0,255]; }else
+	if (color < 80){ return [0,191,255];} else
 	// > 50 && <100 Sand color
-	if (color > 80 && color < 120){ return [244,164,96];} else
+	if (color > 80 && color < 100){ return [244,164,96];} else
 	// > 120 && < 150 Dirt color
-	if (color > 120 && color < 150){ return [139,69,19];} else
+	if (color > 120 && color < 140){ return [139,69,19];} else
 	// > 150 Dark Dirt color
-	if (color > 150){ return [51,25,0];}
+	if (color > 140){ return [51,25,0];}
 	else return color;
 }

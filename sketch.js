@@ -1,5 +1,5 @@
 
-var incr = .007;
+var incr = .002;
 var scl = 1;
 var start = 0;
 var cols, rows;

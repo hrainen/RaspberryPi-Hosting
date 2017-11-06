@@ -1,6 +1,6 @@
 
-var incr = .002;
-var scl = 1;
+var incr = .0075;
+var scl = 4;
 var start = 0;
 var cols, rows;
 var gridColor;

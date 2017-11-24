@@ -20,6 +20,7 @@ function draw() {
 	player.move();
 	for (var i = 0; i < enemies.length; i++){
 		enemies[i].show();
+		enemies[i].move(player.x, player.y);
 	}
 	for (var i = 0; i < bullets.length; i++){
 		bullets[i].show();

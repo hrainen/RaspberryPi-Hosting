@@ -3,7 +3,7 @@ function Projectile(x, y, dirx, diry){
   this.y = y;
   this.velX = 0;
   this.velY = -1;
-  this.speed = 6;
+  this.speed = 10;
 
   this.show = function() {
     fill(50, 0, 200);

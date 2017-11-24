@@ -5,7 +5,7 @@ function Enemy(x, y){
   this.show = function() {
     fill(255, 0, 200);
     noStroke();
-    ellipse(this.x, this.y, 35, 35);
+    ellipse(this.x, this.y, 40, 40);
   }
 
 }

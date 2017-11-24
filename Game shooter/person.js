@@ -1,7 +1,7 @@
 function Person() {
   this.x = width/2;
   this.y = height/2;
-  this.velocity = 10;
+  this.velocity = 5;
   this.isFiring = false;
   this.dir = [0, 0, 0, 0]; //[N, E, S, W]
 

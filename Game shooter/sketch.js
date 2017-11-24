@@ -31,10 +31,33 @@ function draw() {
 			bullets.push(new Projectile(player.x, player.y, player.dirX, player.dirY));
 			frame_since_fire = 0;
 		}
-
+	}
+	if(bullets.length != 0){
+		hitEnemy();
 	}
 }
 
+function hitEnemy(){
+
+	for (var i = 0; i < bullets.length; i++){
+		// if bullet goes out of bounds, remove it
+		if(bullets[i].x < 0 || bullets[i].x > width || bullets[i].y < 0 || bullets[i].y > height){
+			bullets.splice(i, 1);
+			continue;
+		}
+		// check if every bullet has collided with one of the enemy
+		for(var j = 0; j < enemies.length; j++){
+			if(bullets[i].x-enemies[j].x <= 30 && bullets[i].x-enemies[j].x >= -30 &&
+				 bullets[i].y-enemies[j].y <= 20 && bullets[i].y-enemies[j].y >= -20){
+					enemies.splice(j, 1);
+					bullets.splice(i, 1);
+					break;
+			}
+		}
+	}
+
+
+}
 function keyReleased(){
 	if (keyCode === UP_ARROW){
 		player.dir[0] = 0;

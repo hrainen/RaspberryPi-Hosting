@@ -4,11 +4,38 @@ function Person() {
   this.velocity = 5;
   this.isFiring = false;
   this.dir = [0, 0, 0, 0]; //[N, E, S, W]
+  this.isFacing = "N";
 
   this.show = function() {
     fill(255);
     noStroke();
     ellipse(this.x, this.y, 20);
+    switch(this.isFacing){
+      case "N":
+        // show character facing up
+        break;
+      case "E":
+        // show character facing up
+        break;
+      case "S":
+        // show character facing up
+        break;
+      case "W":
+        // show character facing up
+        break;
+      case "NW":
+        // show character facing up
+        break;
+      case "NE":
+        // show character facing up
+        break;
+      case "SW":
+        // show character facing up
+        break;
+      case "W":
+        // show character facing up
+        break;
+    }
   }
 
   this.move = function() {

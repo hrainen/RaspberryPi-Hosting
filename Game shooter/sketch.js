@@ -4,11 +4,12 @@ var enemies = [];
 var bullets = [];
 var frame_since_fire = 0;
 var fire_rate = 10;
+var num_enemies = 1;
 
 function setup() {
-	createCanvas(600, 400);
+	createCanvas(800, 800);
 	player = new Person();
-	for (var i = 0; i < 9; i++){
+	for (var i = 0; i < num_enemies; i++){
 		enemies[i] = new Enemy(100 + i*50, 50);
 	}
 }
@@ -19,6 +20,7 @@ function draw() {
 	player.show();
 	player.move();
 	for (var i = 0; i < enemies.length; i++){
+		if (enemies[i].hp <= 0){enemies.splice(i, 1); continue;}
 		enemies[i].show();
 		enemies[i].move(player.x, player.y);
 	}
@@ -50,7 +52,7 @@ function hitEnemy(){
 		for(var j = 0; j < enemies.length; j++){
 			if(bullets[i].x-enemies[j].x <= 30 && bullets[i].x-enemies[j].x >= -30 &&
 				 bullets[i].y-enemies[j].y <= 20 && bullets[i].y-enemies[j].y >= -20){
-					enemies.splice(j, 1);
+					enemies[j].hit(25);
 					bullets.splice(i, 1);
 					break;
 			}

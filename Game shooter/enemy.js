@@ -3,6 +3,7 @@ function Enemy(x, y){
   this.y = y;
   this.hp = 100;
   this.radius = 40;
+  this.vel = 3;
 
   this.show = function() {
     fill(255, 0, 200);
@@ -20,10 +21,11 @@ function Enemy(x, y){
       // calc slope from enemy to player = (delta y)/(delta x)
       deltay = (playery - this.y);
       deltax = (playerx - this.x);
-      slope = deltay/deltax;
+      direction = Math.sqrt(deltax*deltax + deltay*deltay);
 
-      this.x+= deltax*.01;
-      this.y+= deltay*.01;
+
+      this.x+= deltax/direction * this.vel;
+      this.y+= deltay/direction * this.vel;
 
       /*
       if (this.x - playerx < -22){this.x += 1;}

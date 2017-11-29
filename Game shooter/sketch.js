@@ -4,7 +4,7 @@ var enemies = [];
 var bullets = [];
 var frame_since_fire = 0;
 var fire_rate = 10;
-var num_enemies = 1;
+var num_enemies = 5;
 
 function setup() {
 	createCanvas(800, 800);

@@ -2,6 +2,7 @@
 var player;
 var world;
 var enemies = [];
+var num_enemies = 3;
 
 function setup() {
 	createCanvas(800, 800);
@@ -16,7 +17,6 @@ function draw() {
 	update_world();
 	update_player();
 	update_enemies();
-	console.log(player.bullets.length);
 }
 
 // updating and loading functions for everything else
@@ -30,7 +30,6 @@ function load_player(){
 }
 
 function load_enemies(){
-	let num_enemies = 10;
 	for (let i = 0; i < num_enemies; i++){
 		// add one enemy to enemies array passed in
 		enemies[i] = new Enemy(100 + i*50, 50);
@@ -50,7 +49,7 @@ function update_player(){
 	player.move();
 
 	// check if any bullets fired by the player have hit anything
-	player.update_bullets();
+	player.update_bullets(enemies);
 }
 
 function update_enemies(){

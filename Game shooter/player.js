@@ -34,7 +34,7 @@ function Player(x, y){
     this.bullets.push(new Projectile(this.x, this.y, this.bull_dir));
   }
 
-  this.update_bullets = function(){
+  this.update_bullets = function(enemies_array){
     //if counter started, then increment counter
     this.frames_since_fire +=1;
 
@@ -76,10 +76,9 @@ function Player(x, y){
     }
 
     for (let i = 0; i < this.bullets.length; i++){
-      if(this.check_bullet_collision()){ // if it did find bullet to be colliding with something, then continue to next bullet b/c it was deleted
+      if(this.check_bullet_collision(enemies_array)){ // if it did find bullet to be colliding with something, then continue to next bullet b/c it was deleted
         continue;
       }
-
       this.bullets[i].show();
       this.bullets[i].move();
 
@@ -95,13 +94,22 @@ function Player(x, y){
     }
     return 0;
   }
-  this.check_bullet_collision = function(){
+  this.check_bullet_collision = function(enemies_array){
     for (let i = 0; i < this.bullets.length; i++){
+      // check if each bullet is out of bounds
       if (this.check_out_of_bounds(this.bullets[i].x, this.bullets[i].y)){
         this.delete_bullet(i);
         return 1;
       }
-
+      // check if each bullet hits one of the enemies
+      for(let j = 0; j < enemies_array.length; j++){
+        if(this.bullets[i].x-enemies_array[j].x <= 30 && this.bullets[i].x-enemies_array[j].x >= -30 &&
+           this.bullets[i].y-enemies_array[j].y <= 20 && this.bullets[i].y-enemies_array[j].y >= -20){
+            enemies_array[j].hit(25);
+            this.delete_bullet(i);
+            return 1;
+        }
+      }
 
     }
     return 0;

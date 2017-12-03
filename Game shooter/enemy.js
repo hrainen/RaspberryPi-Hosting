@@ -4,9 +4,10 @@ function Enemy(x, y){
   this.hp = 100;
   this.radius = 40;
   this.vel = 3;
+  this.color = [200, 150, 255];
 
   this.show = function() {
-    fill(255, 0, 200);
+    fill(this.color);
     noStroke();
     ellipse(this.x, this.y, this.radius);
     this.draw_hp_bar();
@@ -15,7 +16,7 @@ function Enemy(x, y){
   this.move = function(playerx, playery) {
 
     if ((Math.pow(Math.pow((playerx - this.x), 2) + Math.pow((playery - this.y),2), (1/2))) < 30){
-      console.log("fuuuk");
+      console.log("hitting player");
     }
     else{
       // calc slope from enemy to player = (delta y)/(delta x)
@@ -26,14 +27,6 @@ function Enemy(x, y){
 
       this.x+= deltax/direction * this.vel;
       this.y+= deltay/direction * this.vel;
-
-      /*
-      if (this.x - playerx < -22){this.x += 1;}
-      else if (this.x - playerx > 22){this.x += -1;}
-
-      if (this.y - playery < -22){this.y += 1;}
-      else if (this.y - playery > 22){this.y += -1;}
-      */
     }
   }
 

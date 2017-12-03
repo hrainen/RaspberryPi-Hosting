@@ -1,105 +1,129 @@
+// globals
 var player;
-var pSpeed = 4;
+var world;
 var enemies = [];
-var bullets = [];
-var frame_since_fire = 0;
-var fire_rate = 10;
-var num_enemies = 5;
+var num_enemies = 3;
 
 function setup() {
 	createCanvas(800, 800);
-	player = new Person();
-	for (var i = 0; i < num_enemies; i++){
-		enemies[i] = new Enemy(100 + i*50, 50);
-	}
+
+	load_world();
+	load_player();
+	load_enemies();
 }
 
 
 function draw() {
+	update_world();
+	update_player();
+	update_enemies();
+}
+
+// updating and loading functions for everything else
+function load_world(){
+	// for now set background = grey
 	background(51);
+}
+
+function load_player(){
+	player =  new Player(width/2, height/2);
+}
+
+function load_enemies(){
+	for (let i = 0; i < num_enemies; i++){
+		// add one enemy to enemies array passed in
+		enemies[i] = new Enemy(100 + i*50, 50);
+	}
+}
+
+function update_world(){
+	// for now just re-draw gray background
+	background(51);
+}
+
+function update_player(){
+	// draw player
 	player.show();
+
+	// update players position
 	player.move();
-	for (var i = 0; i < enemies.length; i++){
-		if (enemies[i].hp <= 0){enemies.splice(i, 1); continue;}
+
+	// check if any bullets fired by the player have hit anything
+	player.update_bullets(enemies);
+}
+
+function update_enemies(){
+	for (var i = 0; i < enemies.length; i++){ // for every enemy on map
+		// if any enemy is <= 0 hp, remove it from map
+		if (enemies[i].hp <= 0){
+			enemies.splice(i, 1); continue;
+		}
+		// draw any remaining enemies
 		enemies[i].show();
+		// update their position
 		enemies[i].move(player.x, player.y);
 	}
-	for (var i = 0; i < bullets.length; i++){
-		bullets[i].show();
-		bullets[i].move();
-	}
-	if(player.isFiring){
-		frame_since_fire += 1;
-		if(frame_since_fire >= fire_rate) {
-			bullets.push(new Projectile(player.x, player.y, player.dirX, player.dirY));
-			frame_since_fire = 0;
-		}
-	}
-	if(bullets.length != 0){
-		hitEnemy();
-	}
 }
 
-function hitEnemy(){
-
-	for (var i = 0; i < bullets.length; i++){
-		// if bullet goes out of bounds, remove it
-		if(bullets[i].x < 0 || bullets[i].x > width || bullets[i].y < 0 || bullets[i].y > height){
-			bullets.splice(i, 1);
-			continue;
-		}
-		// check if every bullet has collided with one of the enemy
-		for(var j = 0; j < enemies.length; j++){
-			if(bullets[i].x-enemies[j].x <= 30 && bullets[i].x-enemies[j].x >= -30 &&
-				 bullets[i].y-enemies[j].y <= 20 && bullets[i].y-enemies[j].y >= -20){
-					enemies[j].hit(25);
-					bullets.splice(i, 1);
-					break;
-			}
-		}
-	}
 
 
-}
+// event handling for keyboard
 function keyReleased(){
 	if (keyCode === UP_ARROW){
-		player.dir[0] = 0;
-	} else if (keyCode === DOWN_ARROW){
-		player.dir[2] = 0;
-	} else if (keyCode === RIGHT_ARROW){
-		player.dir[1] = 0;
+		player.bull_dir[0] = 0;
 
-	} else if (keyCode === LEFT_ARROW){
-		player.dir[3] = 0;
+	}else if (keyCode === RIGHT_ARROW){
+		player.bull_dir[1] = 0;
+
+	}else if (keyCode === DOWN_ARROW){
+		player.bull_dir[2] = 0;
+
+	}else if (keyCode === LEFT_ARROW){
+		player.bull_dir[3] = 0;
 	}
 
-	if (keyCode === 32){ // space = fire
-		player.isFiring = false;
-		frame_since_fire = 0;
+	if (keyCode === 87){ // W (up)
+		player.dir[0] = 0;
+	} else if (keyCode === 83){ // S (down)
+		player.dir[2] = 0;
+	} else if (keyCode === 68){ // D (right)
+		player.dir[1] = 0;
+
+	} else if (keyCode === 65){ // A (left)
+		player.dir[3] = 0;
 	}
 
 }
 
 function keyPressed(){
-	if (keyCode === 32){ // space = fire
-		bullets.push(new Projectile(player.x, player.y, player.dirX, player.dirY));
-		player.isFiring = true;
+	//[N, E, S, W]
+	if (keyCode === UP_ARROW){
+		player.bull_dir[0] = -1;
+
+	}else if (keyCode === RIGHT_ARROW){
+		player.bull_dir[1] = 1;
+
+	}else if (keyCode === DOWN_ARROW){
+		player.bull_dir[2] = 1;
+
+	}else if (keyCode === LEFT_ARROW){
+		player.bull_dir[3] = -1;
 	}
 
-	if (keyCode === UP_ARROW){
-		player.isMoving = true;
-		player.dir[0] = 1;
-	} else if (keyCode === DOWN_ARROW){
-		player.isMoving = true;
+	if (keyCode === 87){ // W (up)
+		player.dir[0] = -1;
+
+	} else if (keyCode === 83){ // S (down)
+
 		player.dir[2] = 1;
 
-	} else if (keyCode === RIGHT_ARROW){
-		player.isMoving = true;
+	} else if (keyCode === 68){ // D (right)
+
 		player.dir[1] = 1;
 
-	} else if (keyCode === LEFT_ARROW){
-		player.isMoving = true;
-		player.dir[3] = 1;
+	} else if (keyCode === 65){ // A (left)
+
+		player.dir[3] = -1;
 	}
 
 }

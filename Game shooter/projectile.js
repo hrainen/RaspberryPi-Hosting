@@ -1,9 +1,9 @@
-function Projectile(x, y, dirx, diry){
+function Projectile(x, y, dir){
   this.x = x;
   this.y = y;
-  this.velX = 0;
-  this.velY = -1;
-  this.speed = 10;
+  this.vel = 10;
+  this.dir =[dir[0], dir[1], dir[2], dir[3]]; //[N, E, S, W]
+
 
   this.show = function() {
     fill(50, 0, 200);
@@ -12,7 +12,7 @@ function Projectile(x, y, dirx, diry){
   }
 
   this.move = function(){
-    this.x += this.velX*this.speed;
-    this.y += this.velY*this.speed;
+      this.x += (this.vel*this.dir[1] + this.vel*this.dir[3]);
+      this.y += (this.vel*this.dir[0] + this.vel*this.dir[2]);
   }
 }

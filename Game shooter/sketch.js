@@ -16,7 +16,7 @@ function draw() {
 	update_world();
 	update_player();
 	update_enemies();
-
+	console.log(player.bullets.length);
 }
 
 // updating and loading functions for everything else

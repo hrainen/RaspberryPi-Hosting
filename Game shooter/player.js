@@ -76,8 +76,39 @@ function Player(x, y){
     }
 
     for (let i = 0; i < this.bullets.length; i++){
+      if(this.check_bullet_collision()){ // if it did find bullet to be colliding with something, then continue to next bullet b/c it was deleted
+        continue;
+      }
+
       this.bullets[i].show();
       this.bullets[i].move();
+
     }
+  }
+
+  this.check_out_of_bounds = function(x, y){
+    if(x < 0 || x > width){
+      return 1;
+    }
+    if(y < 0 || y > height){
+      return 1;
+    }
+    return 0;
+  }
+  this.check_bullet_collision = function(){
+    for (let i = 0; i < this.bullets.length; i++){
+      if (this.check_out_of_bounds(this.bullets[i].x, this.bullets[i].y)){
+        this.delete_bullet(i);
+        return 1;
+      }
+
+
+    }
+    return 0;
+  }
+
+
+  this.delete_bullet = function(index){
+    this.bullets.splice(index, 1);
   }
 }

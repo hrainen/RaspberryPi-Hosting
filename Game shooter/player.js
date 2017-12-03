@@ -1,19 +1,19 @@
 function Player(x, y){
   // constructor
-  this.color = 255; // white
   this.x = x;
   this.y = y;
-  this.vel = 5;
   this.isFiring = false;
   this.dir = [0,0,0,0]; //[N, E, S, W]
-  this.hp = 100;
   this.bullets = [];
   this.bull_dir = [0, 0, 0, 0]; //[N, E, S, W]
 
   // settings to tweak
-  this.radius = 20;
-  this.frames_since_fire = 10;
-  this.fire_rate = 10;
+  this.vel = 5; // player speed
+  this.color = 255; // player color (white)
+  this.hp = 100; // player health
+  this.radius = 20; // player size
+  this.frames_since_fire = 10; // initialize to 10 so we can fire on first press, when we fire, this changes to 0, then we count up by 1 every frame
+  this.fire_rate = 10; // this saves how many frames we need to count to before we can fire again
 
   this.show = function(){
     // for now just draw circle
@@ -21,19 +21,14 @@ function Player(x, y){
     noStroke();
     ellipse(this.x, this.y, this.radius); //posx, posy, radius
   }
-
-
   this.move = function() {
 
     this.x += (this.vel*this.dir[3] + this.vel*this.dir[1]);
     this.y += (this.vel*this.dir[0] + this.vel*this.dir[2]);
   }
-
   this.fire = function(){
-
     this.bullets.push(new Projectile(this.x, this.y, this.bull_dir));
   }
-
   this.update_bullets = function(enemies_array){
     //if counter started, then increment counter
     this.frames_since_fire +=1;
@@ -84,7 +79,6 @@ function Player(x, y){
 
     }
   }
-
   this.check_out_of_bounds = function(x, y){
     if(x < 0 || x > width){
       return 1;
@@ -114,8 +108,6 @@ function Player(x, y){
     }
     return 0;
   }
-
-
   this.delete_bullet = function(index){
     this.bullets.splice(index, 1);
   }

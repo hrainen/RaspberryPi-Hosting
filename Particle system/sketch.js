@@ -1,9 +1,10 @@
 var particles = [];
 
-var num_particles = 200;
-var max_dist = 80;
-var colors = ["green", "red", "purple", "yellow", "blue", "orange"];
-var particle_speed = 2;
+var num_particles = 150;
+var max_dist = 120;
+// for colors, I leave out the last parenthesis because I add in the alpha value later via logic
+var colors = ['rgba(255,0,0', 'rgba(255,165,0', 'rgba(255,255,0', 'rgba(0,128,0', 'rgba(0,255,255', 'rgba(0,0,255', 'rgba(128,0,128', 'rgba(238,130,238'];
+var particle_speed = 3;
 
 function setup() {
 	createCanvas(1500, 800);
@@ -31,34 +32,22 @@ function draw_particles(){
 function draw_lines(){
 	// for every particle draw line to every other particle (for now)
 
-	let partitionSize = width/colors.length;
+	let partitionSize = width/colors.length; // divides up the canvas into colored partitions
 
 	for (let i = 0; i < num_particles; i++){
-		if (particles[i].x < partitionSize){
-			stroke(colors[0]);
-		}
-		else if(particles[i].x < partitionSize*2 && particles[i].x > partitionSize){
-			stroke(colors[1]);
-		}
-		else if(particles[i].x < partitionSize*3 && particles[i].x > partitionSize*2){
-			stroke(colors[2]);
-		}
-		else if(particles[i].x < partitionSize*4 && particles[i].x > partitionSize*3){
-			stroke(colors[3]);
-		}
-		else if(particles[i].x < partitionSize*5 && particles[i].x > partitionSize*4){
-			stroke(colors[4]);
-		}
-		else if(particles[i].x < width && particles[i].x > partitionSize*5){
-			stroke(colors[5]);
-		}
-		else stroke (255);
+		let color = colors[floor(particles[i].x/partitionSize)];
+		let temp = ', .5)'
+		//stroke (color+temp); // figures out which partition a particle is in
+
 		for(let j = 1; j < num_particles; j++){
+			let dist = sqrt(pow((particles[i].x - particles[j].x), 2) + pow((particles[i].y - particles[j].y), 2));
 			// draw line to every other particle in list
 			// check to see if next particle (j) is close enough (within 50 px) if so draw line
 			//sqrt(pow((particles[i].x - particles[j].x), 2) + pow((particles[i].y - particles[j].y), 2)) <= max_dist
 			//in_bounds(particles[i].x, particles[i].y, particles[j].x, particles[j].y)
-			if (sqrt(pow((particles[i].x - particles[j].x), 2) + pow((particles[i].y - particles[j].y), 2)) <= max_dist ){
+			if (dist <= max_dist ){
+				let alpha = map(dist, 0, max_dist, 1, 0)
+				stroke (color+", " + String(alpha) + ")");
 				line(particles[i].x, particles[i].y, particles[j].x, particles[j].y)
 			}
 		}
